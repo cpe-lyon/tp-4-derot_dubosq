@@ -194,9 +194,51 @@ Robin DÉROT William DUBOSQ 4ETI
   #### — l’utilisateur est averti 14 jours avant l’expiration de son mot de passe
   #### — le compte sera bloqué 30 jours après expiration du mot de passe.
   
+  *Expiration :*
+  ```bash
+  sudo chage -E 2020/06/01 u4
+  [sudo] password for kz:
+  ```
   
+  *Changement de mot de passe :*
+  ```bash
+  sudo chage -M 90 u4
+  ```
   
+  *Attente de 5 jours :*
+  ```bash
+  sudo chage -m 5 u4
+  ```
   
+  *14 jours avant expiration :*
+  ```bash
+  sudo chage -W 14 u4
+  ```
+  
+  *Compte bloqué après 30 jours :*
+  ```bash
+  sudo chage -I 30 u4
+  ```
+  
+  ### Question 17.
+  #### Quel est l’interpréteur de commandes (Shell) de l’utilisateur root ?
+  
+  ```bash
+  sudo echo $SHELL
+  /bin/bash
+  ```
+  
+  ### Question 18.
+  #### À quoi correspond l’utilisateur nobody ?
+
+  C'est un utilisateur qui ne possède aucun fichier, ni de privilèges spécifiques. Il a juste les possibilités de base des utilisateurs.
+  
+  ### Question 19.
+  #### Par défaut, combien de temps la commande sudo conserve-t-elle votre mot de passe en mémoire ?
+  #### Quelle commande permet de forcer sudo à oublier votre mot de passe ?
+  
+  Le mot de passe est conservé 15 minutes. 
+  On peut utiliser la commande *exit* ou *ctrl+d* pour faire oublier le mot de passe.
   
   
   
