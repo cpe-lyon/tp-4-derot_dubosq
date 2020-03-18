@@ -240,17 +240,150 @@ Robin DÉROT William DUBOSQ 4ETI
   Le mot de passe est conservé 15 minutes. 
   On peut utiliser la commande *exit* ou *ctrl+d* pour faire oublier le mot de passe.
   
+  ## Exercice 2. Gestion des permissions
+  
+  ### Question 1.
+  #### Dans votre $HOME, créez un dossier test, et dans ce dossier un fichier fichier contenant quelques lignes de texte. Quels sont les droits sur test et fichier ?
+  
+  On utilise les commandes suivantes :
+  
+  ```bash
+  mkdir test
+  cd test
+  touch fichier
+  ```
+  
+  Et pour voir les droits :
+  ```bash
+  ls -l
+  -rw-rwr-- 1 derot derot 60 mars  18 14:34 fichier
+  ```
+  
+  ### Question 2.
+  ### Retirez tous les droits sur ce fichier (même pour vous), puis essayez de le modifier et de l’afficher en tant que root. Conclusion ?
+
+  On utilise les commandes suivantes :
+  
+  ```bash
+  chmod 000 fichier
+  ls -l
+  --------- 1 derot derot 60 mars  18 14:34 fichier
+  ```
+  
+  ```bash
+  sudo nano fichier
+  sudo cat fichier
+  ```
+  
+  Cela fonctionne avec *root* malgré tout.
+  
+  ### Question 3.
+  #### Redonnez vous les droits en écriture et exécution sur fichier puis exécutez la commande echo "echo Hello" > fichier. On a vu lors des TP précédents que cette commande remplace le contenu d’un fichier s’il existe déjà. Que peut-on dire au sujet des droits ?
+  
+  ```bash
+  chmod 330 fichier
+  ls -l
+  --wx-wx--- 1 derot derot 60 mars  18 14:34 fichier
+  
+  echo "echo Hello" > fichier
+  ```
+  
+  *echo Hello* est bien écrit.
+  
+  ### Question 4.
+  #### Essayez d’exécuter le fichier. Est-ce que cela fonctionne ? Et avec sudo ? Expliquez.
+
+  Sans *sudo*, cela ne fonctionne pas. En revanche, cela fonctionne lorsque l'on utilise *sudo*, car nous obtenons les droits requis.
+  
+  ### Question 5.
+  #### Placez-vous dans le répertoire test, et retirez-vous le droit en lecture pour ce répertoire. Listez le contenu du répertoire, puis exécutez ou affichez le contenu du fichier fichier. Qu’en déduisez-vous ? Rétablissez le droit en lecture sur test.
+  
+  On utilise les commandes suivantes :
+  
+  ```bash
+  chmod 330 test
+  cd test
+  ls
+  cat fichier
+  ```
+  On retourne ensuite dans le dossier parent pour rétablir les droits :
+  ```bash
+  cd ..
+  chmod 770 test
+  ```
+  
+  ### Question 6.
+  #### Créez dans test un fichier nouveau ainsi qu’un répertoire sstest. Retirez au fichier nouveau et au répertoire test le droit en écriture. Tentez de modifier le fichier nouveau. Rétablissez ensuite le droit en écriture au répertoire test. Tentez de modifier le fichier nouveau, puis de le supprimer. Que pouvezvous déduire de toutes ces manipulations ?
+  
+  Nous utilisons les commandes suivantes :
+  
+  ```bash
+  touch nouveau
+  mkdir sstest
+  ls
+  ```
+  Cela donne :
+  ```bash
+  fichier  nouveau  sstest
+  ```
+  
+  On retire le droit en écriture : 
+  ```bash
+  chmod u-w nouveau
+  cd ..
+  chmod u-w test
+  ```
+  
+  On utilise les commandes suivantes afin d'essayer de modifier le fichier :
+  
+  ```bash
+  echo "test" > nouveau
+  -bash: nouveau: Permission denied
+  chmod u+w  test
+  echo "test" > nouveau
+  -bash: nouveau: Permission denied
+  ```
+  
+  Même en rétablissant les droits d'écriture à *test*, *nouveau* n'a toujours pas les droits d'écriture.
+  
+  ### Question 7.
+  #### Positionnez vous dans votre répertoire personnel, puis retirez le droit en exécution du répertoire test. Tentez de créer, supprimer, ou modifier un fichier dans le répertoire test, de vous y déplacer, d’en lister le contenu, etc… Qu’en déduisez vous quant au sens du droit en exécution pour les répertoires ?
+  
+  On utilise les commandes suivantes :
+  
+  ```bash
+  chmod u-x test
+  cd test
+  Permission denied
+  ```
+  
+  On ne peut plus accéder à ce répertoire.
+  
+  ### Question 8.
+  #### Rétablissez le droit en exécution du répertoire test. Positionnez vous dans ce répertoire et retirez lui à nouveau le droit d’exécution. Essayez de créer, supprimer et modifier un fichier dans le répertoire test, de vous déplacer dans ssrep, de lister son contenu. Qu’en concluez-vous quant à l’influence des droits que l’on possède sur le répertoire courant ? Peut-on retourner dans le répertoire parent avec ”cd ..” ? Pouvez-vous donner une explication ?
+  
+  On rétablit les droits :
+   ```bash
+  chmod u+x test
+  ``` 
+
+```bash
+  chmod u-x test ~/test
+  ```
+
+  Le droit a été retiré dans tous les sous-dossiers.
+  Il est possible de sortir du répertoire avec la commande *cd ..*, en revanche il est impossible de rentrer à nouveau puisqu'on a retiré ce droit.
   
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
 
