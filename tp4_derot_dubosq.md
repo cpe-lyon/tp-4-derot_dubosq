@@ -374,13 +374,96 @@ Robin DÉROT William DUBOSQ 4ETI
   Le droit a été retiré dans tous les sous-dossiers.
   Il est possible de sortir du répertoire avec la commande *cd ..*, en revanche il est impossible de rentrer à nouveau puisqu'on a retiré ce droit.
   
+  ### Question 9.
+  #### Rétablissez le droit en exécution du répertoire test. Attribuez au fichier fichier les droits suffisants pour qu’une autre personne de votre groupe puisse y accéder en lecture, mais pas en écriture.
   
+  On utilise le code suivant :
+  ```bash
+  chmod u+x test
+  cd test
+  chmod g+r fichier
+  chmod g-w fichier
+  ```
+
+  ### Question 10. Définissez un umask très restrictif qui interdit à quiconque à part vous l’accès en lecture ou en écriture, ainsi que la traversée de vos répertoires. Testez sur un nouveau fichier et un nouveau répertoire.
+
+  On utilise les commandes suivantes :
+  ```bash
+  umask 077
+  cd test
+  mkdir testDir
+  touch testFichier
+  ls -l
+  drwx------ 2 derot derot 4096 mars 18 15:38 testDir
+  -rw------- 1 derot derot 0 mars 18 15:38 testFichier
+  ```
+
+  ### Question 11.
+  #### Définissez un umask très permissif qui autorise tout le monde à lire vos fichiers et traverser vos répertoires, mais n’autorise que vous à écrire. Testez sur un nouveau fichier et un nouveau répertoire.
   
+  On utilise les commandes suivantes :
   
+  ```bash
+  umask 022
+  cd test
+  mkdir testDir2
+  touch testFichier2
+  ls -l
+  drwxr-xr-x 2 derot derot 4096 mars 18 15:38 testDir2
+  -rw-r--r-- 1 derot derot 0 mars 18 15:38 testFichier2
+  ```
 
+  ### Question 12.
+  #### Définissez un umask équilibré qui vous autorise un accès complet et autorise un accès en lecture aux membres de votre groupe. Testez sur un nouveau fichier et un nouveau répertoire.
+  
+  ```bash
+  umask 037
+  cd test
+  mkdir testDir3
+  touch testFichier3
+  ls -l
+  drwxr----- 2 derot derot 4096 mars 18 15:38 testDir3
+  -rw-r----- 1 derot derot 0 mars 18 15:38 testFichier3
+  ```
 
+  ### Question 13.
+  #### Transcrivez les commandes suivantes de la notation classique à la notation octale ou vice-versa (vous pourrez vous aider de la commande stat pour valider vos réponses) :
+  #### - chmod u=rx,g=wx,o=r fic
+  Cette notation devient :
+  ```bash
+  touch fic
+  chmod 534 fic
+  -r-x-wxr-- fic
+  ```
+  #### - chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x---
+  ```bash
+  touch fic
+  chmod 602 fic
+  rw-----w- fic
+  ```
+  #### - chmod 653 fic en sachant que les droits initiaux de fic sont 711
+  ```bash
+  touch fic
+  chmod 653 fic
+  rw-r-x-wx fic
+  ```
+  #### - chmod u+x,g=w,o-r fic en sachant que les droits initiaux de fic sont r--r-x---
+  ```bash
+  touch fic
+  chmod 520 fic
+  r-x-w---- fic
+  ```
+  
+  ### Question 14.
+  #### Affichez les droits sur le programme passwd. Que remarquez-vous ? En affichant les droits du fichier /etc/passwd, pouvez-vous justifier les permissions sur le programme passwd ?
 
+   ```bash
+  ls -l /etc/passwd
+  
+  -rw-r--r-- root root 2328 mars 13 14:12 /etc/passwd
+  ```
 
+  On voit que *root* peut lire et écrire, en revanche les groupes et *others* ne peuvent que lire. On ne peut donc pas modifier le programme.
 
 
 
